@@ -10,7 +10,7 @@ const Workout = require('../../models/Workout');
 // @route   POST api/workouts
 // @desc    Add a workout
 // @access  Private
-router.get(
+router.post(
   '/',
   [
     auth,
@@ -47,5 +47,19 @@ router.get(
     }
   }
 );
+
+// @route   GET api/workouts
+// @desc    Get all workouts
+// @access  Private
+router.get('/', auth, async (req, res) => {
+  try {
+    const workouts = await Workout.find();
+
+    res.json(workouts);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;
