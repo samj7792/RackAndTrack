@@ -62,4 +62,26 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
+// @route   GET api/workouts/:id
+// @desc    Get workout by id
+// @access  Private
+router.get('/:id', auth, async (req, res) => {
+  try {
+    const workout = await Workout.findById(req.params.id);
+
+    if (!workout) {
+      return res.status(404).json({ msg: 'Workout not found' });
+    }
+
+    res.json(workout);
+  } catch (err) {
+    console.error(err.message);
+    // This conditional to prevent server error message if ID does not match length of typical ID
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Workout not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
