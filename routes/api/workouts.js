@@ -69,11 +69,42 @@ router.get('/:id', auth, async (req, res) => {
   try {
     const workout = await Workout.findById(req.params.id);
 
+    // Check if workout exists
     if (!workout) {
       return res.status(404).json({ msg: 'Workout not found' });
     }
 
     res.json(workout);
+  } catch (err) {
+    console.error(err.message);
+    // This conditional to prevent server error message if ID does not match length of typical ID
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Workout not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   DELETE api/workouts/:id
+// @desc    Delete workout by id
+// @access  Private
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const workout = await Workout.findById(req.params.id);
+
+    // Check if workout exists
+    if (!workout) {
+      return res.status(404).json({ msg: 'Workout not found' });
+    }
+
+    // Check if user who created workout is deleting
+    if (workout.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' });
+    }
+
+    await workout.remove();
+
+    res.json({ msg: 'Workout removed' });
   } catch (err) {
     console.error(err.message);
     // This conditional to prevent server error message if ID does not match length of typical ID
