@@ -115,4 +115,42 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
+// @route   PUT api/workouts/like/:id
+// @desc    Like a workout
+// @access  Private
+router.put('/like/:id', auth, async (req, res) => {
+  try {
+    const workout = await Workout.findById(req.params.id);
+
+    // Check if workout exists
+    if (!workout) {
+      return res.status(404).json({ msg: 'Workout not found' });
+    }
+
+    // Check if it has already been liked
+    if (
+      workout.likes.filter(like => like.user.toString() === req.user.id)
+        .length > 0
+    ) {
+      // If it has been liked by the user, unlike it
+      workout.likes = workout.likes.filter(
+        like => like.user.toString() !== req.user.id
+      );
+    } else {
+      workout.likes.unshift({ user: req.user.id });
+    }
+
+    await workout.save();
+
+    res.json(workout.likes);
+  } catch (err) {
+    console.error(err.message);
+    // This conditional to prevent server error if ID does not match length of typical ID
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Post not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
