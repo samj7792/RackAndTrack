@@ -62,6 +62,36 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
+// @route   GET api/workouts/liked
+// @desc    Get all workouts liked by user
+// @access  Private
+router.get('/liked', auth, async (req, res) => {
+  try {
+    const workouts = await Workout.find();
+
+    console.log(workouts);
+
+    const likedWorkouts = workouts.filter(workout => workout.likes.length);
+
+    console.log(likedWorkouts);
+
+    const likedByMe = likedWorkouts.filter(workout => {
+      return workout.likes.filter(like => like.user.toString() === req.user.id);
+    });
+
+    console.log(likedByMe);
+
+    if (likedByMe.length === 0) {
+      return res.status(404).json({ msg: 'No liked workouts found' });
+    }
+
+    res.json(likedByMe);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   GET api/workouts/:id
 // @desc    Get workout by id
 // @access  Private
@@ -116,7 +146,7 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 // @route   PUT api/workouts/like/:id
-// @desc    Like a workout
+// @desc    Like / Unlike a workout
 // @access  Private
 router.put('/like/:id', auth, async (req, res) => {
   try {
