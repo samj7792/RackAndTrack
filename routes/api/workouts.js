@@ -67,25 +67,25 @@ router.get('/', auth, async (req, res) => {
 // @access  Private
 router.get('/liked', auth, async (req, res) => {
   try {
-    const workouts = await Workout.find();
+    const workouts = await Workout.find({ 'likes.user': req.user.id });
 
     console.log(workouts);
 
-    const likedWorkouts = workouts.filter(workout => workout.likes.length);
+    // const likedWorkouts = workouts.filter(workout => workout.likes.length);
 
-    console.log(likedWorkouts);
+    // console.log(likedWorkouts);
 
-    const likedByMe = likedWorkouts.filter(workout => {
-      return workout.likes.filter(like => like.user.toString() === req.user.id);
-    });
+    // const likedByMe = likedWorkouts.filter(workout => {
+    //   return workout.likes.filter(like => like.user.toString() === req.user.id);
+    // });
 
-    console.log(likedByMe);
+    // console.log(likedByMe);
 
-    if (likedByMe.length === 0) {
+    if (workouts.length === 0) {
       return res.status(404).json({ msg: 'No liked workouts found' });
     }
 
-    res.json(likedByMe);
+    res.json(workouts);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
