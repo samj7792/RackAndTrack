@@ -92,6 +92,19 @@ router.get('/liked', auth, async (req, res) => {
   }
 });
 
+// @route   GET api/workouts/mine
+// @desc    Get all workouts created by user
+// @access  Private
+router.get('/mine', auth, async (req, res) => {
+  try {
+    const workouts = await Workout.find({ user: req.user.id });
+    res.json(workouts);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   GET api/workouts/:id
 // @desc    Get workout by id
 // @access  Private
