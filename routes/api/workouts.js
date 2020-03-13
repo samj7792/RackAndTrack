@@ -69,18 +69,6 @@ router.get('/liked', auth, async (req, res) => {
   try {
     const workouts = await Workout.find({ 'likes.user': req.user.id });
 
-    console.log(workouts);
-
-    // const likedWorkouts = workouts.filter(workout => workout.likes.length);
-
-    // console.log(likedWorkouts);
-
-    // const likedByMe = likedWorkouts.filter(workout => {
-    //   return workout.likes.filter(like => like.user.toString() === req.user.id);
-    // });
-
-    // console.log(likedByMe);
-
     if (workouts.length === 0) {
       return res.status(404).json({ msg: 'No liked workouts found' });
     }
