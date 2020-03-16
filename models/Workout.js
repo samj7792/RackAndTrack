@@ -24,6 +24,20 @@ const WorkoutSchema = new Schema({
       }
     }
   ],
+  sets: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+      },
+      weight: {
+        type: Number
+      },
+      reps: {
+        type: Number
+      }
+    }
+  ],
   date: {
     type: Date,
     default: Date.now
