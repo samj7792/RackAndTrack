@@ -31,10 +31,12 @@ const WorkoutSchema = new Schema({
         ref: 'user'
       },
       weight: {
-        type: Number
+        type: Number,
+        required: true
       },
       reps: {
-        type: Number
+        type: Number,
+        required: true
       }
     }
   ],

@@ -48,6 +48,54 @@ router.post(
   }
 );
 
+// @route   POST api/workouts/set/:id
+// @desc    Add a set to a workout
+// @access  Private
+router.post(
+  '/set/:id',
+  [
+    auth,
+    [
+      check('weight', 'Weight is required')
+        .not()
+        .isEmpty(),
+      check('reps', 'Number of reps is required')
+        .not()
+        .isEmpty()
+    ]
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const workout = await Workout.findById(req.params.id);
+
+      // Check if workout exists
+      if (!workout) {
+        return res.status(404).json({ msg: 'Workout not found' });
+      }
+
+      const set = {
+        user: req.user.id,
+        weight: req.body.weight,
+        reps: req.body.reps
+      };
+
+      workout.sets.unshift(set);
+
+      await workout.save();
+
+      res.json(workout);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
 // @route   GET api/workouts
 // @desc    Get all workouts
 // @access  Private
