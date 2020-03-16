@@ -37,6 +37,10 @@ const WorkoutSchema = new Schema({
       reps: {
         type: Number,
         required: true
+      },
+      date: {
+        type: Date,
+        default: Date.now
       }
     }
   ],

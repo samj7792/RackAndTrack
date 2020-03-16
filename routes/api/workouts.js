@@ -93,6 +93,37 @@ router.get('/mine', auth, async (req, res) => {
   }
 });
 
+// @route   GET api/workouts/prevsets/:id
+// @desc    Get user's sets for a workout
+// @access  Private
+router.get('/prevsets/:id', auth, async (req, res) => {
+  try {
+    const workout = await Workout.find({
+      $and: [{ _id: req.params.id }, { 'sets.user': req.user.id }]
+    });
+
+    // Check if workout exists
+    if (workout.length === 0) {
+      return res.status(404).send({ msg: 'No previous sets found' });
+    }
+
+    const title = workout[0].title;
+
+    const sets = workout[0].sets.filter(
+      set => set.user.toString() === req.user.id
+    );
+
+    res.json({ title, sets });
+  } catch (err) {
+    console.error(err.message);
+    // This conditional to prevent server error message if ID does not match length of typical ID
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Workout not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   POST api/workouts/set/:id
 // @desc    Add a set to a workout
 // @access  Private
@@ -138,6 +169,10 @@ router.post(
       res.json(workout);
     } catch (err) {
       console.error(err.message);
+      // This conditional to prevent server error message if ID does not match length of typical ID
+      if (err.kind === 'ObjectId') {
+        return res.status(404).json({ msg: 'Workout not found' });
+      }
       res.status(500).send('Server Error');
     }
   }
