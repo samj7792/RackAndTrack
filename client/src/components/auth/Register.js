@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
@@ -83,6 +84,10 @@ const Register = () => {
           Submit
         </Button>
       </Form>
+      <br />
+      <p>
+        Already have an accout? <Link to='/login'>Log In</Link>
+      </p>
     </Fragment>
   );
 };
