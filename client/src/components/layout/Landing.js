@@ -19,10 +19,10 @@ const Landing = () => {
           </Row>
           <Row className='justify-content-md-center'>
             <Col md='auto'>
-              <Button variant='primary' size='lg'>
+              <Button variant='primary' size='lg' href='/register'>
                 Sign Up
               </Button>{' '}
-              <Button variant='secondary' size='lg'>
+              <Button variant='secondary' size='lg' href='/login'>
                 Log In
               </Button>
             </Col>
