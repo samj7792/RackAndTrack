@@ -5,6 +5,7 @@ import TopNavbar from './components/layout/TopNav';
 import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import CurWork from './components/auth/CurWork';
 import './App.css';
 
 const App = () => (
@@ -14,6 +15,7 @@ const App = () => (
       <Route exact path='/' component={Landing} />
       <Container>
         <Switch>
+          <Route exact path='/currentworkout' component={CurWork} />
           <Route exact path='/register' component={Register} />
           <Route exact path='/login' component={Login} />
         </Switch>
