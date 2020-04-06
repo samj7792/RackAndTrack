@@ -1,9 +1,11 @@
 import React, { Fragment, useState } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { setAlert } from '../../actions/alert';
 
-const Register = () => {
+const Register = ({ setAlert }) => {
   // creating our state for the form data to be filled by user
   const [formData, setFormData] = useState({
     name: '',
@@ -25,7 +27,8 @@ const Register = () => {
 
     // check if passwords match
     if (password !== password2) {
-      console.log('passwords do not match');
+      // call setAlert action
+      setAlert('Passwords do not match', 'danger');
     } else {
       console.log(formData);
     }
@@ -92,4 +95,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default connect(null, { setAlert })(Register);
