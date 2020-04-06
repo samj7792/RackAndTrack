@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { setAlert } from '../../actions/alert';
+import { register } from '../../actions/auth';
+import PropTypes from 'prop-types';
 
-const Register = ({ setAlert }) => {
+const Register = ({ setAlert, register }) => {
   // creating our state for the form data to be filled by user
   const [formData, setFormData] = useState({
     name: '',
@@ -30,7 +32,7 @@ const Register = ({ setAlert }) => {
       // call setAlert action
       setAlert('Passwords do not match', 'danger');
     } else {
-      console.log(formData);
+      register({ name, email, password });
     }
   };
 
@@ -50,7 +52,6 @@ const Register = ({ setAlert }) => {
             name='name'
             value={name}
             onChange={e => onChange(e)}
-            required
           />
         </Form.Group>
         <Form.Group>
@@ -60,7 +61,6 @@ const Register = ({ setAlert }) => {
             name='email'
             value={email}
             onChange={e => onChange(e)}
-            required
           />
         </Form.Group>
         <Form.Group>
@@ -70,7 +70,6 @@ const Register = ({ setAlert }) => {
             name='password'
             value={password}
             onChange={e => onChange(e)}
-            minLength='6'
           />
         </Form.Group>
         <Form.Group>
@@ -80,7 +79,6 @@ const Register = ({ setAlert }) => {
             name='password2'
             value={password2}
             onChange={e => onChange(e)}
-            minLength='6'
           />
         </Form.Group>
         <Button variant='primary' type='submit'>
@@ -95,4 +93,9 @@ const Register = ({ setAlert }) => {
   );
 };
 
-export default connect(null, { setAlert })(Register);
+Register.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired
+};
+
+export default connect(null, { setAlert, register })(Register);
