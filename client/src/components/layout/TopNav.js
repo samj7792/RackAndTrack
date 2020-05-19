@@ -9,9 +9,12 @@ const TopNav = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <Nav>
       <Nav.Item>
-        <a onClick={logout} href='#!'>
+        <Nav.Link onClick={logout} href='#!'>
           <i className='fas fas-sign-out-alt' /> <span>Logout</span>
-        </a>
+        </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href='/dashboard'>Dashboard</Nav.Link>
       </Nav.Item>
     </Nav>
   );
@@ -41,11 +44,11 @@ const TopNav = ({ auth: { isAuthenticated, loading }, logout }) => {
 
 TopNav.propTypes = {
   logout: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { logout })(TopNav);
