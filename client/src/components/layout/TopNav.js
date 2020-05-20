@@ -31,7 +31,7 @@ const TopNav = ({ auth: { isAuthenticated, loading }, logout }) => {
   );
 
   return (
-    <Navbar bg='dark' variant='dark'>
+    <Navbar className='mb-2' bg='dark' variant='dark'>
       <Navbar.Brand href='/' className='mr-auto'>
         <i className='fas fa-dumbbell' /> Rack and Track
       </Navbar.Brand>
