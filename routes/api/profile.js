@@ -13,7 +13,7 @@ router.get('/me', auth, async (req, res) => {
   try {
     // Create profile variable by finding a profile by the user's id and populate with their name from the User model
     const profile = await Profile.findOne({
-      user: req.user.id
+      user: req.user.id,
     }).populate('user', ['name']);
 
     // Check if there is no profile
@@ -33,14 +33,7 @@ router.get('/me', auth, async (req, res) => {
 // @access  Private
 router.post(
   '/',
-  [
-    auth,
-    [
-      check('favWorkout', 'Favorite workout is required')
-        .not()
-        .isEmpty()
-    ]
-  ],
+  [auth, [check('favWorkout', 'Favorite workout is required').not().isEmpty()]],
   async (req, res) => {
     const errors = validationResult(req);
 
@@ -49,12 +42,16 @@ router.post(
     }
 
     // Deconstruct req.body
-    const { favWorkout } = req.body;
+    const { favWorkout, dob, heightFt, heightIn, weight } = req.body;
 
     // Build profile object
     const profileFields = {};
     profileFields.user = req.user.id;
     if (favWorkout) profileFields.favWorkout = favWorkout;
+    if (dob) profileFields.dob = dob;
+    if (heightFt) profileFields.heightFt = heightFt;
+    if (heightIn) profileFields.heightIn = heightIn;
+    if (weight) profileFields.weight = weight;
 
     try {
       // Check if a profile already exists
@@ -103,7 +100,7 @@ router.get('/', async (req, res) => {
 router.get('/user/:user_id', async (req, res) => {
   try {
     const profile = await Profile.findOne({
-      user: req.params.user_id
+      user: req.params.user_id,
     }).populate('user', ['name']);
 
     // Check if a profile with that ID exists

@@ -3,16 +3,28 @@ const mongoose = require('mongoose');
 const ProfileSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user'
+    ref: 'user',
   },
   favWorkout: {
     type: String,
-    required: true
+    required: true,
+  },
+  dob: {
+    type: Date,
+  },
+  heightFt: {
+    type: Number,
+  },
+  heightIn: {
+    type: Number,
+  },
+  weight: {
+    type: Number,
   },
   date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 module.exports = Profile = mongoose.model('profile', ProfileSchema);
