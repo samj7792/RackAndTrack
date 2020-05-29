@@ -1,20 +1,37 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { createProfile } from '../../actions/profile';
+import { createProfile, getCurrentProfile } from '../../actions/profile';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 
-const CreateProfile = ({ createProfile, history }) => {
+const EditProfile = ({
+  profile: { profile, loading },
+  createProfile,
+  getCurrentProfile,
+  history,
+}) => {
   const [formData, setFormData] = useState({
     favWorkout: '',
     heightFt: '',
     heightIn: '',
     weight: '',
   });
+
+  useEffect(() => {
+    getCurrentProfile();
+
+    setFormData({
+      favWorkout: loading || !profile.favWorkout ? '' : profile.favWorkout,
+      heightFt: loading || !profile.heightFt ? '' : profile.heightFt,
+      heightIn: loading || !profile.heightIn ? '' : profile.heightIn,
+      weight: loading || !profile.weight ? '' : profile.weight,
+    });
+    // we want this to depend on when loading changes to false
+  }, [loading]);
 
   const { favWorkout, heightFt, heightIn, weight } = formData;
 
@@ -23,14 +40,14 @@ const CreateProfile = ({ createProfile, history }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createProfile(formData, history);
+    createProfile(formData, history, true);
   };
 
   return (
     <Fragment>
       <span>
         <h3>
-          <i className='fas fa-user' /> Create Your Profile
+          <i className='fas fa-user' /> Edit Your Profile
         </h3>
       </span>
       <small>* = required field</small>
@@ -98,8 +115,16 @@ const CreateProfile = ({ createProfile, history }) => {
   );
 };
 
-CreateProfile.propTypes = {
+EditProfile.propTypes = {
   createProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
-export default connect(null, { createProfile })(withRouter(CreateProfile));
+const mapStateToProps = (state) => ({
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
+  withRouter(EditProfile)
+);

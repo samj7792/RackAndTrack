@@ -9,9 +9,6 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  dob: {
-    type: Date,
-  },
   heightFt: {
     type: Number,
   },
