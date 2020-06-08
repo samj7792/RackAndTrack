@@ -1,4 +1,4 @@
-import { WORKOUT_ERROR, MY_WORKOUTS } from '../actions/types';
+import { WORKOUT_ERROR, MY_WORKOUTS, LIKED_WORKOUTS } from '../actions/types';
 
 const initialState = {
   workout: null,
@@ -16,6 +16,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         myWorkouts: payload,
+        loading: false,
+      };
+    case LIKED_WORKOUTS:
+      return {
+        ...state,
+        likedWorkouts: payload,
         loading: false,
       };
     case WORKOUT_ERROR:

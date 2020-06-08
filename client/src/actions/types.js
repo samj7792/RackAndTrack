@@ -12,3 +12,4 @@ export const PROFILE_ERROR = 'PROFILE_ERROR';
 export const CLEAR_PROFILE = 'CLEAR_PROFILE';
 export const WORKOUT_ERROR = 'WORKOUT_ERROR';
 export const MY_WORKOUTS = 'MY_WORKOUTS';
+export const LIKED_WORKOUTS = 'LIKED_WORKOUTS';

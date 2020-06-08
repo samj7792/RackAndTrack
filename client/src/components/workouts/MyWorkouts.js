@@ -2,34 +2,58 @@ import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
-import { getWorkouts } from '../../actions/workouts';
+import { getMyWorkouts, getLikedWorkouts } from '../../actions/workouts';
 
 import Button from 'react-bootstrap/Button';
 
-const MyWorkouts = ({ workouts: { myWorkouts, loading }, getWorkouts }) => {
+const MyWorkouts = ({
+  workouts: { myWorkouts, likedWorkouts, loading },
+  getMyWorkouts,
+  getLikedWorkouts,
+}) => {
   useEffect(() => {
-    getWorkouts();
-  });
+    getMyWorkouts();
+    getLikedWorkouts();
+  }, []);
 
   const createdWorkouts = myWorkouts.map((workout) => (
     <li key={workout._id}>
       <h5>{workout.title}</h5>
-      <p>{workout.description}</p>
+      {/* <p>{workout.description}</p> */}
     </li>
   ));
 
-  return loading && myWorkouts === null ? (
+  const likedByMe = likedWorkouts.map((workout) => (
+    <li key={workout._id}>
+      <h5>{workout.title}</h5>
+      {/* <p>{workout.description}</p> */}
+    </li>
+  ));
+
+  // return loading && myWorkouts === null ? (
+  //   <Spinner />
+  // ) : (
+  //   <Fragment>
+  //     <h3>Workouts Created By Me</h3>
+  //     {myWorkouts !== null ? <ul>{createdWorkouts}</ul> : 'does not'}
+  //   </Fragment>
+  // );
+
+  return loading ? (
     <Spinner />
   ) : (
     <Fragment>
-      <h3>Workouts Created By Me</h3>
-      {myWorkouts !== null ? <ul>{createdWorkouts}</ul> : 'does not'}
+      <h3>Workouts created by me</h3>
+      <ul>{createdWorkouts}</ul>
+      <h3>Workouts liked by me</h3>
+      <ul>{likedByMe}</ul>
     </Fragment>
   );
 };
 
 MyWorkouts.propTypes = {
-  getWorkouts: PropTypes.func.isRequired,
+  getMyWorkouts: PropTypes.func.isRequired,
+  getLikedWorkouts: PropTypes.func.isRequired,
   workouts: PropTypes.object.isRequired,
 };
 
@@ -37,4 +61,6 @@ const mapStateToProps = (state) => ({
   workouts: state.workouts,
 });
 
-export default connect(mapStateToProps, { getWorkouts })(MyWorkouts);
+export default connect(mapStateToProps, { getMyWorkouts, getLikedWorkouts })(
+  MyWorkouts
+);
