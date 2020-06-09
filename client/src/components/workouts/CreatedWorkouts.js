@@ -21,8 +21,8 @@ const CreatedWorkouts = ({ myWorkouts, loading, getMyWorkouts }) => {
     <Fragment>
       <Spinner />
     </Fragment>
-  ) : myWorkouts === null ? (
-    'You have not created any workouts'
+  ) : myWorkouts.length === 0 ? (
+    <p>You have not created any workouts</p>
   ) : (
     <Fragment>{createdWorkouts}</Fragment>
   );

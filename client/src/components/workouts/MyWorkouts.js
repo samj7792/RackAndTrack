@@ -17,6 +17,7 @@ const MyWorkouts = ({ workouts: { myWorkouts, likedWorkouts, loading } }) => {
       <ul>
         <LikedWorkouts likedWorkouts={likedWorkouts} loading={loading} />
       </ul>
+      <Button href='/dashboard'>Dashboard</Button>
     </Fragment>
   );
 };

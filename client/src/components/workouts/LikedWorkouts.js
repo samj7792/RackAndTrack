@@ -21,8 +21,8 @@ const LikedWorkouts = ({ likedWorkouts, loading, getLikedWorkouts }) => {
     <Fragment>
       <Spinner />
     </Fragment>
-  ) : likedWorkouts === null ? (
-    'You have not created any workouts'
+  ) : likedWorkouts.length === 0 ? (
+    <p>You have not liked any workouts</p>
   ) : (
     <Fragment>{likedByMe}</Fragment>
   );
