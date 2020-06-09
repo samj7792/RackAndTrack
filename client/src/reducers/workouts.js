@@ -1,7 +1,13 @@
-import { WORKOUT_ERROR, MY_WORKOUTS, LIKED_WORKOUTS } from '../actions/types';
+import {
+  WORKOUT_ERROR,
+  MY_WORKOUTS,
+  LIKED_WORKOUTS,
+  GET_WORKOUTS,
+} from '../actions/types';
 
 const initialState = {
   workout: null,
+  allWorkouts: [],
   myWorkouts: [],
   likedWorkouts: [],
   loading: true,
@@ -12,6 +18,12 @@ export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
+    case GET_WORKOUTS:
+      return {
+        ...state,
+        allWorkouts: payload,
+        loading: false,
+      };
     case MY_WORKOUTS:
       return {
         ...state,

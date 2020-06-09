@@ -25,7 +25,7 @@ const DashboardActions = () => {
       <br />
       <Row>
         <Col>
-          <Button href='/my-workouts'>
+          <Button href='/all-workouts'>
             <i className='fas fa-search' /> Search Workouts
           </Button>
         </Col>
@@ -33,7 +33,7 @@ const DashboardActions = () => {
       <br />
       <Row>
         <Col>
-          <Button href='/my-workouts'>
+          <Button href='/create-workout'>
             <i className='fas fa-plus' /> Create Workout
           </Button>
         </Col>

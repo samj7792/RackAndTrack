@@ -12,6 +12,7 @@ import PrivateRoute from './components/routing/PrivateRoute';
 import CreateProfile from './components/profile-forms/CreateProfile';
 import EditProfile from './components/profile-forms/EditProfile';
 import MyWorkouts from './components/workouts/MyWorkouts';
+import AllWorkouts from './components/workouts/AllWorkouts';
 
 // Redux
 import { Provider } from 'react-redux';
@@ -55,6 +56,11 @@ const App = () => {
                 component={EditProfile}
               />
               <PrivateRoute exact path='/my-workouts' component={MyWorkouts} />
+              <PrivateRoute
+                exact
+                path='/all-workouts'
+                component={AllWorkouts}
+              />
             </Switch>
           </Container>
         </Fragment>
