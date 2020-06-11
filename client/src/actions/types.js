@@ -11,6 +11,7 @@ export const GET_PROFILE = 'GET_PROFILE';
 export const PROFILE_ERROR = 'PROFILE_ERROR';
 export const CLEAR_PROFILE = 'CLEAR_PROFILE';
 export const WORKOUT_ERROR = 'WORKOUT_ERROR';
+export const GET_WORKOUT = 'GET_WORKOUT';
 export const GET_WORKOUTS = 'GET_WORKOUTS';
 export const MY_WORKOUTS = 'MY_WORKOUTS';
 export const LIKED_WORKOUTS = 'LIKED_WORKOUTS';

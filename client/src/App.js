@@ -13,6 +13,7 @@ import CreateProfile from './components/profile-forms/CreateProfile';
 import EditProfile from './components/profile-forms/EditProfile';
 import MyWorkouts from './components/workouts/MyWorkouts';
 import AllWorkouts from './components/workouts/AllWorkouts';
+import CreateWorkout from './components/workouts/CreateWorkout';
 
 // Redux
 import { Provider } from 'react-redux';
@@ -60,6 +61,11 @@ const App = () => {
                 exact
                 path='/all-workouts'
                 component={AllWorkouts}
+              />
+              <PrivateRoute
+                exact
+                path='/create-workout'
+                component={CreateWorkout}
               />
             </Switch>
           </Container>

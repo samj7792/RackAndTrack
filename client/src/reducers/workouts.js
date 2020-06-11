@@ -3,6 +3,7 @@ import {
   MY_WORKOUTS,
   LIKED_WORKOUTS,
   GET_WORKOUTS,
+  GET_WORKOUT,
 } from '../actions/types';
 
 const initialState = {
@@ -18,6 +19,12 @@ export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
+    case GET_WORKOUT:
+      return {
+        ...state,
+        workout: payload,
+        loading: false,
+      };
     case GET_WORKOUTS:
       return {
         ...state,
