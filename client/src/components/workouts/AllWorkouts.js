@@ -15,8 +15,6 @@ const AllWorkouts = ({
     getAllWorkouts();
   }, []);
 
-  console.log(allWorkouts);
-
   const all = allWorkouts.map((workout) => (
     <li key={workout._id}>
       <h6>{workout.title}</h6>
