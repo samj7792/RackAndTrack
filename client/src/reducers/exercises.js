@@ -1,16 +1,16 @@
 import {
-  WORKOUT_ERROR,
-  MY_WORKOUTS,
-  LIKED_WORKOUTS,
-  GET_WORKOUTS,
-  GET_WORKOUT,
+  EXERCISE_ERROR,
+  MY_EXERCISES,
+  LIKED_EXERCISES,
+  GET_EXERCISES,
+  GET_EXERCISE,
 } from '../actions/types';
 
 const initialState = {
-  workout: null,
-  allWorkouts: [],
-  myWorkouts: [],
-  likedWorkouts: [],
+  exercise: null,
+  allExercises: [],
+  myExercises: [],
+  likedExercises: [],
   loading: true,
   error: {},
 };
@@ -19,31 +19,31 @@ export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case GET_WORKOUT:
+    case GET_EXERCISE:
       return {
         ...state,
-        workout: payload,
+        exercise: payload,
         loading: false,
       };
-    case GET_WORKOUTS:
+    case GET_EXERCISES:
       return {
         ...state,
-        allWorkouts: payload,
+        allExercises: payload,
         loading: false,
       };
-    case MY_WORKOUTS:
+    case MY_EXERCISES:
       return {
         ...state,
-        myWorkouts: payload,
+        myExercises: payload,
         loading: false,
       };
-    case LIKED_WORKOUTS:
+    case LIKED_EXERCISES:
       return {
         ...state,
-        likedWorkouts: payload,
+        likedExercises: payload,
         loading: false,
       };
-    case WORKOUT_ERROR:
+    case EXERCISE_ERROR:
       return {
         ...state,
         error: payload,

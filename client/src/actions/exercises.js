@@ -2,66 +2,66 @@ import axios from 'axios';
 import { setAlert } from './alert';
 
 import {
-  MY_WORKOUTS,
-  WORKOUT_ERROR,
-  LIKED_WORKOUTS,
-  GET_WORKOUTS,
-  GET_WORKOUT,
+  MY_EXERCISES,
+  EXERCISE_ERROR,
+  LIKED_EXERCISES,
+  GET_EXERCISES,
+  GET_EXERCISE,
 } from './types';
 
-// Get all workouts
-export const getAllWorkouts = () => async (dispatch) => {
+// Get all exercises
+export const getAllExercises = () => async (dispatch) => {
   try {
-    const res = await axios.get('/api/workouts');
+    const res = await axios.get('/api/exercises');
 
     dispatch({
-      type: GET_WORKOUTS,
+      type: GET_EXERCISES,
       payload: res.data,
     });
   } catch (err) {
     dispatch({
-      type: WORKOUT_ERROR,
+      type: EXERCISE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
 
-// Get user's workouts
-export const getMyWorkouts = () => async (dispatch) => {
+// Get user's exercises
+export const getMyExercises = () => async (dispatch) => {
   try {
-    const res = await axios.get('/api/workouts/mine');
+    const res = await axios.get('/api/exercises/mine');
 
     dispatch({
-      type: MY_WORKOUTS,
+      type: MY_EXERCISES,
       payload: res.data,
     });
   } catch (err) {
     dispatch({
-      type: WORKOUT_ERROR,
+      type: EXERCISE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
 
-// Get user's liked workouts
-export const getLikedWorkouts = () => async (dispatch) => {
+// Get user's liked exercises
+export const getLikedExercises = () => async (dispatch) => {
   try {
-    const res = await axios.get('/api/workouts/liked');
+    const res = await axios.get('/api/exercises/liked');
 
     dispatch({
-      type: LIKED_WORKOUTS,
+      type: LIKED_EXERCISES,
       payload: res.data,
     });
   } catch (err) {
     dispatch({
-      type: WORKOUT_ERROR,
+      type: EXERCISE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
 
-// Create a workout
-export const createWorkout = (formData, history, edit = false) => async (
+// Create a exercise
+export const createExercise = (formData, history, edit = false) => async (
   dispatch
 ) => {
   try {
@@ -71,16 +71,18 @@ export const createWorkout = (formData, history, edit = false) => async (
       },
     };
 
-    const res = await axios.post('/api/workouts', formData, config);
+    const res = await axios.post('/api/exercises', formData, config);
 
     dispatch({
-      type: GET_WORKOUT,
+      type: GET_EXERCISE,
       payload: res.data,
     });
 
-    dispatch(setAlert(edit ? 'Workout Updated' : 'Workout Created', 'success'));
+    dispatch(
+      setAlert(edit ? 'Exercise Updated' : 'Exercise Created', 'success')
+    );
 
-    // if it's a new workout, send user to dash
+    // if it's a new exercise, send user to dash
     if (!edit) history.push('/dashboard');
   } catch (err) {
     const errors = err.response.data.errors;
@@ -90,7 +92,7 @@ export const createWorkout = (formData, history, edit = false) => async (
     }
 
     dispatch({
-      type: WORKOUT_ERROR,
+      type: EXERCISE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }

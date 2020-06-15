@@ -17,24 +17,24 @@ const DashboardActions = () => {
       <br />
       <Row>
         <Col>
-          <Button href='/my-workouts'>
-            <i className='fas fa-circle' /> My Workouts
+          <Button href='/my-exercises'>
+            <i className='fas fa-circle' /> My Exercises
           </Button>
         </Col>
       </Row>
       <br />
       <Row>
         <Col>
-          <Button href='/all-workouts'>
-            <i className='fas fa-search' /> Search Workouts
+          <Button href='/all-exercises'>
+            <i className='fas fa-search' /> Search Exercises
           </Button>
         </Col>
       </Row>
       <br />
       <Row>
         <Col>
-          <Button href='/create-workout'>
-            <i className='fas fa-plus' /> Create Workout
+          <Button href='/create-exercise'>
+            <i className='fas fa-plus' /> Create Exercise
           </Button>
         </Col>
       </Row>

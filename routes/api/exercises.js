@@ -5,20 +5,16 @@ const { check, validationResult } = require('express-validator');
 
 const User = require('../../models/User');
 const Profile = require('../../models/Profile');
-const Workout = require('../../models/Workout');
+const Exercise = require('../../models/Exercise');
 
-// @route   POST api/workouts
-// @desc    Add a workout
+// @route   POST api/exercises
+// @desc    Add a exercise
 // @access  Private
 router.post(
   '/',
   [
     auth,
-    [
-      check('title', 'Please enter the name of your workout')
-        .not()
-        .isEmpty()
-    ]
+    [check('title', 'Please enter the name of your exercise').not().isEmpty()],
   ],
   async (req, res) => {
     // Check for valid input
@@ -31,16 +27,16 @@ router.post(
       // Using the given token, find the user info without the password
       const user = await User.findById(req.user.id).select('-password');
 
-      const newWorkout = new Workout({
+      const newExercise = new Exercise({
         title: req.body.title,
         description: req.body.description,
         name: user.name,
-        user: req.user.id
+        user: req.user.id,
       });
 
-      const workout = await newWorkout.save();
+      const exercise = await newExercise.save();
 
-      res.json(workout);
+      res.json(exercise);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -48,69 +44,69 @@ router.post(
   }
 );
 
-// @route   GET api/workouts
-// @desc    Get all workouts
+// @route   GET api/exercises
+// @desc    Get all exercises
 // @access  Private
 router.get('/', auth, async (req, res) => {
   try {
-    const workouts = await Workout.find();
+    const exercises = await Exercise.find();
 
-    res.json(workouts);
+    res.json(exercises);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
 
-// @route   GET api/workouts/liked
-// @desc    Get all workouts liked by user
+// @route   GET api/exercises/liked
+// @desc    Get all exercises liked by user
 // @access  Private
 router.get('/liked', auth, async (req, res) => {
   try {
-    const workouts = await Workout.find({ 'likes.user': req.user.id });
+    const exercises = await Exercise.find({ 'likes.user': req.user.id });
 
-    if (workouts.length === 0) {
-      return res.status(404).json({ msg: 'No liked workouts found' });
+    if (exercises.length === 0) {
+      return res.status(404).json({ msg: 'No liked exercises found' });
     }
 
-    res.json(workouts);
+    res.json(exercises);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
 
-// @route   GET api/workouts/mine
-// @desc    Get all workouts created by user
+// @route   GET api/exercises/mine
+// @desc    Get all exercises created by user
 // @access  Private
 router.get('/mine', auth, async (req, res) => {
   try {
-    const workouts = await Workout.find({ user: req.user.id });
-    res.json(workouts);
+    const exercises = await Exercise.find({ user: req.user.id });
+    res.json(exercises);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
 
-// @route   GET api/workouts/prevsets/:id
-// @desc    Get user's sets for a workout
+// @route   GET api/exercises/prevsets/:id
+// @desc    Get user's sets for a exercise
 // @access  Private
 router.get('/prevsets/:id', auth, async (req, res) => {
   try {
-    const workout = await Workout.find({
-      $and: [{ _id: req.params.id }, { 'sets.user': req.user.id }]
+    const exercise = await Exercise.find({
+      $and: [{ _id: req.params.id }, { 'sets.user': req.user.id }],
     });
 
-    // Check if workout exists
-    if (workout.length === 0) {
+    // Check if exercise exists
+    if (exercise.length === 0) {
       return res.status(404).send({ msg: 'No previous sets found' });
     }
 
-    const title = workout[0].title;
+    const title = exercise[0].title;
 
-    const sets = workout[0].sets.filter(
-      set => set.user.toString() === req.user.id
+    const sets = exercise[0].sets.filter(
+      (set) => set.user.toString() === req.user.id
     );
 
     res.json({ title, sets });
@@ -118,27 +114,23 @@ router.get('/prevsets/:id', auth, async (req, res) => {
     console.error(err.message);
     // This conditional to prevent server error message if ID does not match length of typical ID
     if (err.kind === 'ObjectId') {
-      return res.status(404).json({ msg: 'Workout not found' });
+      return res.status(404).json({ msg: 'Exercise not found' });
     }
     res.status(500).send('Server Error');
   }
 });
 
-// @route   POST api/workouts/set/:id
-// @desc    Add a set to a workout
+// @route   POST api/exercises/set/:id
+// @desc    Add a set to a exercise
 // @access  Private
 router.post(
   '/set/:id',
   [
     auth,
     [
-      check('weight', 'Weight is required')
-        .not()
-        .isEmpty(),
-      check('reps', 'Number of reps is required')
-        .not()
-        .isEmpty()
-    ]
+      check('weight', 'Weight is required').not().isEmpty(),
+      check('reps', 'Number of reps is required').not().isEmpty(),
+    ],
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -147,118 +139,118 @@ router.post(
     }
 
     try {
-      const workout = await Workout.findById(req.params.id);
+      const exercise = await Exercise.findById(req.params.id);
 
-      // Check if workout exists
-      if (!workout) {
-        return res.status(404).json({ msg: 'Workout not found' });
+      // Check if exercise exists
+      if (!exercise) {
+        return res.status(404).json({ msg: 'Exercise not found' });
       }
 
       // Create set object
       const set = {
         user: req.user.id,
         weight: req.body.weight,
-        reps: req.body.reps
+        reps: req.body.reps,
       };
 
       // Add set to front of array
-      workout.sets.unshift(set);
+      exercise.sets.unshift(set);
 
-      await workout.save();
+      await exercise.save();
 
-      res.json(workout);
+      res.json(exercise);
     } catch (err) {
       console.error(err.message);
       // This conditional to prevent server error message if ID does not match length of typical ID
       if (err.kind === 'ObjectId') {
-        return res.status(404).json({ msg: 'Workout not found' });
+        return res.status(404).json({ msg: 'Exercise not found' });
       }
       res.status(500).send('Server Error');
     }
   }
 );
 
-// @route   GET api/workouts/:id
-// @desc    Get workout by id
+// @route   GET api/exercises/:id
+// @desc    Get exercise by id
 // @access  Private
 router.get('/:id', auth, async (req, res) => {
   try {
-    const workout = await Workout.findById(req.params.id);
+    const exercise = await Exercise.findById(req.params.id);
 
-    // Check if workout exists
-    if (!workout) {
-      return res.status(404).json({ msg: 'Workout not found' });
+    // Check if exercise exists
+    if (!exercise) {
+      return res.status(404).json({ msg: 'Exercise not found' });
     }
 
-    res.json(workout);
+    res.json(exercise);
   } catch (err) {
     console.error(err.message);
     // This conditional to prevent server error message if ID does not match length of typical ID
     if (err.kind === 'ObjectId') {
-      return res.status(404).json({ msg: 'Workout not found' });
+      return res.status(404).json({ msg: 'Exercise not found' });
     }
     res.status(500).send('Server Error');
   }
 });
 
-// @route   DELETE api/workouts/:id
-// @desc    Delete workout by id
+// @route   DELETE api/exercises/:id
+// @desc    Delete exercise by id
 // @access  Private
 router.delete('/:id', auth, async (req, res) => {
   try {
-    const workout = await Workout.findById(req.params.id);
+    const exercise = await Exercise.findById(req.params.id);
 
-    // Check if workout exists
-    if (!workout) {
-      return res.status(404).json({ msg: 'Workout not found' });
+    // Check if exercise exists
+    if (!exercise) {
+      return res.status(404).json({ msg: 'Exercise not found' });
     }
 
-    // Check if user who created workout is deleting
-    if (workout.user.toString() !== req.user.id) {
+    // Check if user who created exercise is deleting
+    if (exercise.user.toString() !== req.user.id) {
       return res.status(401).json({ msg: 'User not authorized' });
     }
 
-    await workout.remove();
+    await exercise.remove();
 
-    res.json({ msg: 'Workout removed' });
+    res.json({ msg: 'Exercise removed' });
   } catch (err) {
     console.error(err.message);
     // This conditional to prevent server error message if ID does not match length of typical ID
     if (err.kind === 'ObjectId') {
-      return res.status(404).json({ msg: 'Workout not found' });
+      return res.status(404).json({ msg: 'Exercise not found' });
     }
     res.status(500).send('Server Error');
   }
 });
 
-// @route   PUT api/workouts/like/:id
-// @desc    Like / Unlike a workout
+// @route   PUT api/exercises/like/:id
+// @desc    Like / Unlike a exercise
 // @access  Private
 router.put('/like/:id', auth, async (req, res) => {
   try {
-    const workout = await Workout.findById(req.params.id);
+    const exercise = await Exercise.findById(req.params.id);
 
-    // Check if workout exists
-    if (!workout) {
-      return res.status(404).json({ msg: 'Workout not found' });
+    // Check if exercise exists
+    if (!exercise) {
+      return res.status(404).json({ msg: 'Exercise not found' });
     }
 
     // Check if it has already been liked
     if (
-      workout.likes.filter(like => like.user.toString() === req.user.id)
+      exercise.likes.filter((like) => like.user.toString() === req.user.id)
         .length > 0
     ) {
       // If it has been liked by the user, unlike it
-      workout.likes = workout.likes.filter(
-        like => like.user.toString() !== req.user.id
+      exercise.likes = exercise.likes.filter(
+        (like) => like.user.toString() !== req.user.id
       );
     } else {
-      workout.likes.unshift({ user: req.user.id });
+      exercise.likes.unshift({ user: req.user.id });
     }
 
-    await workout.save();
+    await exercise.save();
 
-    res.json(workout.likes);
+    res.json(exercise.likes);
   } catch (err) {
     console.error(err.message);
     // This conditional to prevent server error if ID does not match length of typical ID

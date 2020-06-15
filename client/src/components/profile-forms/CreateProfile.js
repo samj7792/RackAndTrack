@@ -10,13 +10,13 @@ import Col from 'react-bootstrap/Col';
 
 const CreateProfile = ({ createProfile, history }) => {
   const [formData, setFormData] = useState({
-    favWorkout: '',
+    favExercise: '',
     heightFt: '',
     heightIn: '',
     weight: '',
   });
 
-  const { favWorkout, heightFt, heightIn, weight } = formData;
+  const { favExercise, heightFt, heightIn, weight } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -37,14 +37,14 @@ const CreateProfile = ({ createProfile, history }) => {
       <br />
       <br />
       <Form onSubmit={(e) => onSubmit(e)}>
-        <Form.Group controlId='formGridFavWorkout'>
+        <Form.Group controlId='formGridFavExercise'>
           <Form.Label>
-            <strong>Enter your favorite workout!</strong>
+            <strong>Enter your favorite exercise!</strong>
           </Form.Label>
           <Form.Control
-            placeholder='* Favorite Workout'
-            name='favWorkout'
-            value={favWorkout}
+            placeholder='* Favorite Exercise'
+            name='favExercise'
+            value={favExercise}
             onChange={(e) => onChange(e)}
           />
         </Form.Group>

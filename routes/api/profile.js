@@ -33,7 +33,10 @@ router.get('/me', auth, async (req, res) => {
 // @access  Private
 router.post(
   '/',
-  [auth, [check('favWorkout', 'Favorite workout is required').not().isEmpty()]],
+  [
+    auth,
+    [check('favExercise', 'Favorite exercise is required').not().isEmpty()],
+  ],
   async (req, res) => {
     const errors = validationResult(req);
 
@@ -42,12 +45,12 @@ router.post(
     }
 
     // Deconstruct req.body
-    const { favWorkout, dob, heightFt, heightIn, weight } = req.body;
+    const { favExercise, dob, heightFt, heightIn, weight } = req.body;
 
     // Build profile object
     const profileFields = {};
     profileFields.user = req.user.id;
-    if (favWorkout) profileFields.favWorkout = favWorkout;
+    if (favExercise) profileFields.favExercise = favExercise;
     if (dob) profileFields.dob = dob;
     if (heightFt) profileFields.heightFt = heightFt;
     if (heightIn) profileFields.heightIn = heightIn;

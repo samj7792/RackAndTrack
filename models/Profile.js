@@ -5,7 +5,7 @@ const ProfileSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
   },
-  favWorkout: {
+  favExercise: {
     type: String,
     required: true,
   },

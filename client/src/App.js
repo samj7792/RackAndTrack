@@ -5,15 +5,14 @@ import TopNavbar from './components/layout/TopNav';
 import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
-import CurWork from './components/auth/CurWork';
 import AlertComp from './components/layout/AlertComp';
 import Dashboard from './components/dashboard/Dashboard';
 import PrivateRoute from './components/routing/PrivateRoute';
 import CreateProfile from './components/profile-forms/CreateProfile';
 import EditProfile from './components/profile-forms/EditProfile';
-import MyWorkouts from './components/workouts/MyWorkouts';
-import AllWorkouts from './components/workouts/AllWorkouts';
-import CreateWorkout from './components/workouts/CreateWorkout';
+import MyExercises from './components/exercises/MyExercises';
+import AllExercises from './components/exercises/AllExercises';
+import CreateExercise from './components/exercises/CreateExercise';
 
 // Redux
 import { Provider } from 'react-redux';
@@ -42,7 +41,6 @@ const App = () => {
           <Container>
             <AlertComp />
             <Switch>
-              <Route exact path='/currentworkout' component={CurWork} />
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
@@ -56,16 +54,20 @@ const App = () => {
                 path='/edit-profile'
                 component={EditProfile}
               />
-              <PrivateRoute exact path='/my-workouts' component={MyWorkouts} />
               <PrivateRoute
                 exact
-                path='/all-workouts'
-                component={AllWorkouts}
+                path='/my-exercises'
+                component={MyExercises}
               />
               <PrivateRoute
                 exact
-                path='/create-workout'
-                component={CreateWorkout}
+                path='/all-exercises'
+                component={AllExercises}
+              />
+              <PrivateRoute
+                exact
+                path='/create-exercise'
+                component={CreateExercise}
               />
             </Switch>
           </Container>

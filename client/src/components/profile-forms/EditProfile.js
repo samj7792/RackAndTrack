@@ -15,7 +15,7 @@ const EditProfile = ({
   history,
 }) => {
   const [formData, setFormData] = useState({
-    favWorkout: '',
+    favExercise: '',
     heightFt: '',
     heightIn: '',
     weight: '',
@@ -25,7 +25,7 @@ const EditProfile = ({
     getCurrentProfile();
 
     setFormData({
-      favWorkout: loading || !profile.favWorkout ? '' : profile.favWorkout,
+      favExercise: loading || !profile.favExercise ? '' : profile.favExercise,
       heightFt: loading || !profile.heightFt ? '' : profile.heightFt,
       heightIn: loading || !profile.heightIn ? '' : profile.heightIn,
       weight: loading || !profile.weight ? '' : profile.weight,
@@ -33,7 +33,7 @@ const EditProfile = ({
     // we want this to depend on when loading changes to false
   }, [loading]);
 
-  const { favWorkout, heightFt, heightIn, weight } = formData;
+  const { favExercise, heightFt, heightIn, weight } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -54,14 +54,14 @@ const EditProfile = ({
       <br />
       <br />
       <Form onSubmit={(e) => onSubmit(e)}>
-        <Form.Group controlId='formGridFavWorkout'>
+        <Form.Group controlId='formGridFavExercise'>
           <Form.Label>
-            <strong>Enter your favorite workout!</strong>
+            <strong>Enter your favorite exercise!</strong>
           </Form.Label>
           <Form.Control
-            placeholder='* Favorite Workout'
-            name='favWorkout'
-            value={favWorkout}
+            placeholder='* Favorite Exercise'
+            name='favExercise'
+            value={favExercise}
             onChange={(e) => onChange(e)}
           />
         </Form.Group>

@@ -1,12 +1,12 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createWorkout } from '../../actions/workouts';
+import { createExercise } from '../../actions/exercises';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-const CreateWorkout = ({ createWorkout, history }) => {
+const CreateExercise = ({ createExercise, history }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -19,16 +19,16 @@ const CreateWorkout = ({ createWorkout, history }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createWorkout(formData, history);
+    createExercise(formData, history);
   };
 
   return (
     <Fragment>
-      <h3>Create Your Workout</h3>
+      <h3>Create Your Exercise</h3>
       <small>* = required field</small>
       <Form onSubmit={(e) => onSubmit(e)}>
         <Form.Group controlId='formTitle'>
-          <Form.Label>Workout Title</Form.Label>
+          <Form.Label>Exercise Title</Form.Label>
           <Form.Control
             type='text'
             placeholder=' * Title'
@@ -38,7 +38,7 @@ const CreateWorkout = ({ createWorkout, history }) => {
           />
         </Form.Group>
         <Form.Group controlId='formDescription'>
-          <Form.Label>Workout Description</Form.Label>
+          <Form.Label>Exercise Description</Form.Label>
           <Form.Control
             as='textarea'
             rows='3'
@@ -55,8 +55,8 @@ const CreateWorkout = ({ createWorkout, history }) => {
   );
 };
 
-CreateWorkout.propTypes = {
-  createWorkout: PropTypes.func.isRequired,
+CreateExercise.propTypes = {
+  createExercise: PropTypes.func.isRequired,
 };
 
-export default connect(null, { createWorkout })(CreateWorkout);
+export default connect(null, { createExercise })(CreateExercise);

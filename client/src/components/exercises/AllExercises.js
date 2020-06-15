@@ -1,24 +1,24 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getAllWorkouts } from '../../actions/workouts';
+import { getAllExercises } from '../../actions/exercises';
 import Spinner from '../layout/Spinner';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-const AllWorkouts = ({
-  workouts: { allWorkouts, loading },
-  getAllWorkouts,
+const AllExercises = ({
+  exercises: { allExercises, loading },
+  getAllExercises,
 }) => {
   useEffect(() => {
-    getAllWorkouts();
+    getAllExercises();
   }, []);
 
-  const all = allWorkouts.map((workout) => (
-    <li key={workout._id}>
-      <h6>{workout.title}</h6>
-      {workout.description}
+  const all = allExercises.map((exercise) => (
+    <li key={exercise._id}>
+      <h6>{exercise.title}</h6>
+      {exercise.description}
       <Form>
         <Form.Check type='checkbox'>
           <Form.Check.Input type='checkbox' isValid />
@@ -29,24 +29,24 @@ const AllWorkouts = ({
     </li>
   ));
 
-  return loading && allWorkouts.length === 0 ? (
+  return loading && allExercises.length === 0 ? (
     <Spinner />
   ) : (
     <Fragment>
-      <h3>All Workouts</h3>
+      <h3>All Exercises</h3>
       <ul>{all}</ul>
       <Button href='/dashboard'>Dashboard</Button>
     </Fragment>
   );
 };
 
-AllWorkouts.propTypes = {
-  getAllWorkouts: PropTypes.func.isRequired,
-  workouts: PropTypes.object.isRequired,
+AllExercises.propTypes = {
+  getAllExercises: PropTypes.func.isRequired,
+  exercises: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  workouts: state.workouts,
+  exercises: state.exercises,
 });
 
-export default connect(mapStateToProps, { getAllWorkouts })(AllWorkouts);
+export default connect(mapStateToProps, { getAllExercises })(AllExercises);
